@@ -1,7 +1,6 @@
 import LineChartComponent from "./components/LineChart";
 import data from "./data";
 function App() {
-  console.log("data", data);
   return (
     <>
       <LineChartComponent
