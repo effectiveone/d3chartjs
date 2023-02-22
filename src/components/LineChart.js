@@ -38,6 +38,22 @@ const LineChartComponent = ({ data }) => {
       .x((d) => x(d.x))
       .y((d) => y(d.y));
 
+    svg
+      .append("g")
+      .attr("class", "grid")
+      .attr(
+        "transform",
+        `translate(${margin.left}, ${margin.top + innerHeight})`
+      )
+      .call(d3.axisBottom(x).tickSize(-innerHeight).tickFormat("").ticks(5));
+
+    // Add the y-axis grid
+    svg
+      .append("g")
+      .attr("class", "grid")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`)
+      .call(d3.axisLeft(y).tickSize(-innerWidth).tickFormat("").ticks(5));
+
     // Add the line path
     svg
       .append("g")
