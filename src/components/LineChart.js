@@ -4,9 +4,15 @@ import * as d3 from "d3";
 const LineChartComponent = ({ data }) => {
   const svgRef = useRef();
   const [isHovering, setIsHovering] = useState(false);
-  const [isVisibleLineX, setIsVisibleLineX] = useState(false);
-  const [isVisibleLineY, setIsVisibleLineY] = useState(false);
+  const colors = ["purple", "darkorange", "forestgreen", "crimson"];
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
 
+  const handleColorChange = () => {
+    const nextColorIndex = (currentColorIndex + 1) % colors.length;
+    setCurrentColorIndex(nextColorIndex);
+    const svg = d3.select(svgRef.current);
+    svg.select("path").attr("stroke", colors[nextColorIndex]);
+  };
   useEffect(() => {
     const svg = d3.select(svgRef.current);
 
@@ -113,9 +119,21 @@ const LineChartComponent = ({ data }) => {
   }, [data]);
 
   return (
-    <svg ref={svgRef} width="500" height="300">
-      <g style={{ background: "lightgray" }} />
-    </svg>
+    <>
+      <svg ref={svgRef} width="500" height="300">
+        <g>
+          <rect width="100%" height="100%" fill={colors[currentColorIndex]} />
+          <path
+            d="M 50 50 L 100 100 L 200 50 L 250 150"
+            stroke={colors[currentColorIndex]}
+            strokeWidth="5"
+            fill="none"
+          />
+        </g>
+      </svg>
+
+      <button onClick={handleColorChange}>Change Color</button>
+    </>
   );
 };
 
